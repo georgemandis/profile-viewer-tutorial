@@ -1,0 +1,12 @@
+{
+  "name": "Sample SOLID App",
+  "short_name": "SOLID",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A sample SOLID app.",
+  "icons": [{
+    "src": "icon.svg",
+    "sizes": "48x48 128x128 256x256 512x512"
+  }
+}
