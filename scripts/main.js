@@ -5,7 +5,6 @@ var setVisibilityOf = (obj, boolean_value) => {
   boolean_value ? obj.style.display = "block" : obj.style.display = "none";
 }
 
-
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 
 // Log the user in and out on click
@@ -32,8 +31,6 @@ solid.auth.trackSession(session => {
 });
 
 document.querySelector('#view').addEventListener("click", (e) => { 
-  
-  
 
 async function loadProfile() {
   // Set up a local data store and associated data fetcher
@@ -42,8 +39,6 @@ async function loadProfile() {
 
   // Load the person's data into the store
   const person = document.querySelector('#profile').value;
-  console.log("person is");
-  console.log(person);
   await fetcher.load(person);
 
   // Display their details
@@ -52,8 +47,7 @@ async function loadProfile() {
 
   // Display their friends
   const friends = store.each($rdf.sym(person), FOAF('knows'));
-  console.log("friends are");
-  console.log(friends);
+  
   document.querySelector('#friends').textContent = null;
   friends.forEach(async (friend) => {
     await fetcher.load(friend);
