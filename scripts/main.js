@@ -1,5 +1,4 @@
 /* global $rdf, solid */
-
 import "./rdflib.min.js";
 import "./solid-auth-client.bundle.js";
 
@@ -11,16 +10,17 @@ const setVisibilityOf = (obj, boolean_value) => {
 const FOAF = $rdf.Namespace("http://xmlns.com/foaf/0.1/");
 
 const profile = document.querySelector("#profile");
+const [loginButton, logoutButton] = [
+  document.querySelector("#login  button"),
+  document.querySelector("#logout button"),
+];
 
 // Log the user in and out on click
 const popupUri = "popup.html";
-document.querySelector("#login  button").addEventListener("click", (e) => {
-  solid.auth.popupLogin(popupUri);
-});
-
-document
-  .querySelector("#logout button")
-  .addEventListener("click", solid.auth.logout);
+loginButton.addEventListener("click", (e) =>
+  solid.auth.popupLogin({ popupUri })
+);
+logoutButton.addEventListener("click", (e) => solid.auth.logout());
 
 // Update components to match the user's login status
 solid.auth.trackSession((session) => {
@@ -55,10 +55,12 @@ document.querySelector("#view").addEventListener("click", async (e) => {
   friends.forEach(async (friend) => {
     await fetcher.load(friend);
     const fullName = store.any(friend, FOAF("name"));
+
+    // Build the list item to append to the DOM
     const listItem = document.createElement("li");
     const friendLink = document.createElement("a");
     friendLink.textContent = (fullName && fullName.value) || friend.value;
-    friendLink.addEventListener("click", (e) => {      
+    friendLink.addEventListener("click", (e) => {
       profile.value = friend.value;
     });
     listItem.appendChild(friendLink);
