@@ -1,4 +1,6 @@
 /* global $rdf, solid */ 
+import './rdflib.min.js';
+import './solid-auth-client.bundle.js';
 
 /* TODO: make more elegant by adding this function to the appropriate class or prototype */
 var setVisibilityOf = (obj, boolean_value) => {
