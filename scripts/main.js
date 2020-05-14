@@ -34,38 +34,34 @@ solid.auth.trackSession((session) => {
   }
 });
 
-document.querySelector("#view").addEventListener("click", (e) => {
-  async function loadProfile() {
-    // Set up a local data store and associated data fetcher
-    const store = $rdf.graph();
-    const fetcher = new $rdf.Fetcher(store);
+document.querySelector("#view").addEventListener("click", async (e) => {
+  // Set up a local data store and associated data fetcher
+  const store = $rdf.graph();
+  const fetcher = new $rdf.Fetcher(store);
 
-    // Load the person's data into the store
-    const person = profile.value;
-    await fetcher.load(person);
+  // Load the person's data into the store
+  const person = profile.value;
+  await fetcher.load(person);
 
-    // Display their details
-    const fullName = store.any($rdf.sym(person), FOAF("name"));
-    document.querySelector("#fullName").textContent =
-      fullName && fullName.value;
+  // Display their details
+  const fullName = store.any($rdf.sym(person), FOAF("name"));
+  document.querySelector("#fullName").textContent = fullName && fullName.value;
 
-    // Display their friends
-    const friends = store.each($rdf.sym(person), FOAF("knows"));
-    const friendList = document.querySelector("#friends");
-    friendList.textContent = null;
+  // Display their friends
+  const friends = store.each($rdf.sym(person), FOAF("knows"));
+  const friendList = document.querySelector("#friends");
+  friendList.textContent = null;
 
-    friends.forEach(async (friend) => {
-      await fetcher.load(friend);
-      const fullName = store.any(friend, FOAF("name"));
-      const listItem = document.createElement("li");
-      const friendLink = document.createElement("a");
-      friendLink.textContent = (fullName && fullName.value) || friend.value;
-      friendLink.addEventListener("click", (e) => {
-        profile.textContent = friend.value;
-      });
-      listItem.appendChild(friendLink);
-      friendList.appendChild(listItem);
+  friends.forEach(async (friend) => {
+    await fetcher.load(friend);
+    const fullName = store.any(friend, FOAF("name"));
+    const listItem = document.createElement("li");
+    const friendLink = document.createElement("a");
+    friendLink.textContent = (fullName && fullName.value) || friend.value;
+    friendLink.addEventListener("click", (e) => {      
+      profile.value = friend.value;
     });
-  }
-  loadProfile();
+    listItem.appendChild(friendLink);
+    friendList.appendChild(listItem);
+  });
 });
