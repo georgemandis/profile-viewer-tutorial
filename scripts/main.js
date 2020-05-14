@@ -9,26 +9,30 @@ const setVisibilityOf = (obj, boolean_value) => {
 
 const FOAF = $rdf.Namespace("http://xmlns.com/foaf/0.1/");
 
-const profile = document.querySelector("#profile");
-const [loginButton, logoutButton] = [
-  document.querySelector("#login  button"),
-  document.querySelector("#logout button"),
+const [profile, user, login, logout] = [
+  document.querySelector("#profile"),
+  document.querySelector("#user"),
+  document.querySelector("#login"),
+  document.querySelector("#logout"),
 ];
 
 // Log the user in and out on click
 const popupUri = "popup.html";
-loginButton.addEventListener("click", (e) =>
-  solid.auth.popupLogin({ popupUri })
-);
-logoutButton.addEventListener("click", (e) => solid.auth.logout());
+login
+  .querySelector("button")
+  .addEventListener("click", (e) => solid.auth.popupLogin({ popupUri }));
+logout
+  .querySelector("button")
+  .addEventListener("click", (e) => solid.auth.logout());
 
 // Update components to match the user's login status
 solid.auth.trackSession((session) => {
-  const loggedIn = !!session;
-  setVisibilityOf(document.querySelector("#login"), !loggedIn);
-  setVisibilityOf(document.querySelector("#logout"), loggedIn);
-  if (loggedIn) {
-    document.querySelector("#user").textContent = session.webId;
+  login.toggleAttribute("hidden");
+  logout.toggleAttribute("hidden");
+  
+  // check if logged in
+  if (!!session) {    
+    user.textContent = session.webId;
     // Use the user's WebID as default profile
     if (!profile.value) profile.value = session.webId;
   }
