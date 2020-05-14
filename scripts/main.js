@@ -2,11 +2,6 @@
 import "./rdflib.min.js";
 import "./solid-auth-client.bundle.js";
 
-/* TODO: make more elegant by adding this function to the appropriate class or prototype */
-const setVisibilityOf = (obj, boolean_value) => {
-  boolean_value ? (obj.style.display = "block") : (obj.style.display = "none");
-};
-
 const FOAF = $rdf.Namespace("http://xmlns.com/foaf/0.1/");
 
 const [profile, user, login, logout] = [
