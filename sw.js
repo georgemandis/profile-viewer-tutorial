@@ -1,7 +1,12 @@
 const staticCacheName = 'site-static-v1';
 const assets = [
   '/',
-  '/index.html'
+  '/index.html',
+  '/script/main.js',
+  '/script/rdflib.min.js',
+  '/script/solid-auth-client.bundle.js',
+  '/icon.png',
+  '/icon.svg'
 ];
 // install event
 self.addEventListener('install', evt => {
